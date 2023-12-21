@@ -10,6 +10,8 @@ def main() -> None:
 
     lines = [convert_line(line) for line in lines]
 
+    [print(l, end='') for l in lines]
+
     write_file(lines)
 
 
