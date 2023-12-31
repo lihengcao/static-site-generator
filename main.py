@@ -3,6 +3,8 @@
 INPUT = "input.md"
 OUTPUT = "index.html"
 
+VERBOSE = True
+
 
 def main() -> None:
     """entrypoint"""
@@ -10,7 +12,9 @@ def main() -> None:
 
     lines = [convert_line(line) for line in lines]
 
-    [print(l, end='') for l in lines]
+    if VERBOSE:
+        for line in lines:
+            print(line, end="")
 
     write_file(lines)
 
@@ -30,7 +34,7 @@ def convert_line(line: str) -> str:
 
 
 def read_file() -> list[str]:
-    """read file ... """
+    """read file ..."""
     with open(INPUT, "r", encoding="utf-8") as f:
         # return f.read().splitlines()
         return f.readlines()
