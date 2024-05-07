@@ -1,10 +1,10 @@
 # static-site-generator
-## Motivation
+# Motivation
 I don't like Jekyll :P
 
 (Maybe it would be interesting to build a markdown interpreter?)
 
-## Overview
+# Overview
 Takes .md files from `_posts/` folder, converts them to .html files, and then writes the output to `docs/` folder. 
 
 Why these folder names? `_posts/` is used by Jekyll as the input, and `docs/` is used by GitHub Pages for hosting. 
