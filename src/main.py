@@ -1,7 +1,7 @@
 """main"""
 
-INPUT = "input.md"
-OUTPUT = "index.html"
+INPUT = "_posts/input.md"
+OUTPUT = "docs/index.html"
 
 VERBOSE = True
 
