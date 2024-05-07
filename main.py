@@ -6,7 +6,7 @@ OUTPUT = "index.html"
 VERBOSE = True
 
 
-def main() -> None:
+def main():
     """entrypoint"""
     lines = read_file()
 
@@ -21,16 +21,22 @@ def main() -> None:
 
 def convert_line(line: str) -> str:
     """convert input line into html output, kind of"""
-    ind = 0
-    while ind < len(line):
-        if line[ind] != "#":
+    line = line.lstrip()
+
+    h_ind = 0  # header index
+    while h_ind < len(line):
+        if line[h_ind] != "#":
             break
-        ind += 1
+        h_ind += 1
 
-    if ind == 0:
-        return line
+    if h_ind == 0:
+        return line.rstrip() + "\n"
 
-    return f"<h{ind}>" + line[ind + 1 :].rstrip() + f"</h{ind}>\n"
+    content = line[h_ind + 1 :].rstrip()
+    if len(content) == 0:
+        return ""
+
+    return f"<h{h_ind}>{content}</h{h_ind}>\n"
 
 
 def read_file() -> list[str]:
