@@ -1,18 +1,35 @@
 """main"""
 
 import os
+import argparse
 import markdown
 
 INPUT_FOLDER = "_posts/"
 OUTPUT_FOLDER = "docs/"
 
-VERBOSE = True
+VERBOSE = False
 
 
 def main():
     """entrypoint"""
-    # convert_markdown()
+    parse_args()
+    convert_markdown()
     build_homepage()
+
+def parse_args() -> None:
+    parser = argparse.ArgumentParser(prog='static site generator')
+    parser.add_argument('-i', '--input-folder')
+    parser.add_argument('-o', '--output-folder')
+
+    args = parser.parse_args()
+
+    # This is horrible practice. I will change this... eventually...
+    if args.input_folder is not None:
+        global INPUT_FOLDER
+        INPUT_FOLDER = args.input_folder
+    if args.output_folder is not None:
+        global OUTPUT_FOLDER
+        OUTPUT_FOLDER = args.output_folder
 
 
 def build_homepage() -> None:
@@ -53,7 +70,6 @@ def get_posts_in_order() -> list[tuple[str, str, str]]:
 
     posts.sort(reverse=True)
 
-    print(posts)
     return posts
 
 
