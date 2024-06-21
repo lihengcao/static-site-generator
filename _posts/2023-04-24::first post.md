@@ -1,8 +1,3 @@
----
-title: First Entry!
-date: 2023-04-24
----
-
 # Hi
 
 Just seeing how Jekyll works (:

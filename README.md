@@ -1,41 +1,33 @@
 # static-site-generator
 
-# Motivation
+## Motivation
 
 I don't like Jekyll :P
 
-(Maybe it would be interesting to build a markdown interpreter?)
+I initially wanted to write a very very simple markdown interpreter, but decided against that. Going in the backlog.
 
-# Overview
+## Overview
 
 Takes .md files from `_posts/` folder, converts them to .html files, and then writes the output to `docs/` folder.
 
 Why these folder names? `_posts/` is used by Jekyll as the input, and `docs/` is used by GitHub Pages for hosting.
 
-# Supported features
+## TODO/Reminders/Backlog
 
-- Headers
-
-# TODO/Reminders
-
-## Markdown features
-
-- Bullets
-- Code blocks
-- Links
-
-## Rust
+### Rust
 
 Rewrite in rust to practice??
 
-## Optimization
+### Optimization
 
-- Necessary optimization: if the generated file is newer than the source file, don't do anything
+Necessary optimization: if the generated file is newer than the source file, don't do anything.
 
-## multiple files
+### Options file
 
-- Have an input and output folder for multiple files
+Allow changing of input and output folder
 
-## Options file
+- Name of author, blog, +
 
-- Allow changing of input and output folder
+### Don't use a library for markdown conversion
+
+Write a simple markdown interpreter. Probably support only a small subset of all markdown features.
