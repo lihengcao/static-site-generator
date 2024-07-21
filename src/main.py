@@ -35,7 +35,7 @@ def parse_args() -> None:
 def build_homepage() -> None:
     index_file = [
         "# Liheng's Blog\n",  # Some md linter tells me that there should be an *additional* new line afterwards
-        "Made with my own simple static site generator: [repo](https://github.com/lihengcao/static-site-generator/).",
+        "Made with my own simple static site generator ([repo](https://github.com/lihengcao/static-site-generator/))",
         "\n## Posts\n",  # same here. an additional newline before and after
         ]
 
