@@ -15,6 +15,7 @@ def main():
     parse_args()
     convert_markdown()
     build_homepage()
+    print("Done!")
 
 def parse_args() -> None:
     parser = argparse.ArgumentParser(prog='static site generator')
@@ -30,6 +31,9 @@ def parse_args() -> None:
     if args.output_folder is not None:
         global OUTPUT_FOLDER
         OUTPUT_FOLDER = args.output_folder
+
+    if VERBOSE:
+        print(f"{INPUT_FOLDER=} {OUTPUT_FOLDER=}")
 
 
 def build_homepage() -> None:
@@ -65,7 +69,10 @@ def get_posts_in_order() -> list[tuple[str, str, str]]:
             continue
 
         name_only = filename[:-len(".html")]
-        date, name = name_only.split('::')
+        after_split = name_only.split('::')
+        if len(after_split) != 2:
+            continue
+        date, name = after_split
         posts.append((date, name, filename))
 
     posts.sort(reverse=True)
