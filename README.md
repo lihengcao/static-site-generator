@@ -1,11 +1,12 @@
 # static-site-generator
 
 ## How to run
+
 1. Clone this repo inside your blog/parent folder
 1. Make sure you have python, pip, and venv (should come with modern versions of python)
 1. Run `source static-site-generator/setup.sh` **in the parent/parent folder**
 1. Run `python3 static-site-generator/main.py -i ./inputs/ -o ./outputs/`, replacing inputs with the folder of `.md` files, and outputs with wherever the converted files and index file should go.
-    1. recommend making a `main.sh` file for this so you can just type `source main.sh` instead of typing the folder names everytime!
+   1. recommend making a `main.sh` file for this so you can just type `source main.sh` instead of typing the folder names everytime!
 1. Profit!
 
 ## Motivation

@@ -1,8 +1,17 @@
 """main"""
 
-import os
 import argparse
-import markdown
+import os
+import sys
+
+try:
+    import markdown
+except ImportError:
+    print(
+        "make sure to setup the environment: module markdown can't be imported",
+        file=sys.stderr,
+    )
+    sys.exit(1)
 
 INPUT_FOLDER = "_posts/"
 OUTPUT_FOLDER = "docs/"
@@ -17,10 +26,11 @@ def main():
     build_homepage()
     print("Done!")
 
+
 def parse_args() -> None:
-    parser = argparse.ArgumentParser(prog='static site generator')
-    parser.add_argument('-i', '--input-folder')
-    parser.add_argument('-o', '--output-folder')
+    parser = argparse.ArgumentParser(prog="static site generator")
+    parser.add_argument("-i", "--input-folder")
+    parser.add_argument("-o", "--output-folder")
 
     args = parser.parse_args()
 
@@ -41,14 +51,16 @@ def build_homepage() -> None:
         "# Liheng's Blog\n",  # Some md linter tells me that there should be an *additional* new line afterwards
         "Made with my own simple static site generator ([repo](https://github.com/lihengcao/static-site-generator/))",
         "\n## Posts\n",  # same here. an additional newline before and after
-        ]
+    ]
 
     posts = get_posts_in_order()
 
     for date, name, filename in posts:
-        index_file.extend([
-            f"- [{date} {name}](./{filename})",
-        ])
+        index_file.extend(
+            [
+                f"- [{date} {name}](./{filename})",
+            ]
+        )
 
     index_file = "\n".join(index_file) + "\n"
 
@@ -60,6 +72,7 @@ def build_homepage() -> None:
     with open(OUTPUT_FOLDER + "index.html", "w", encoding="utf-8") as f:
         f.writelines(index_file)
 
+
 def get_posts_in_order() -> list[tuple[str, str, str]]:
     files_in_output_directory = os.listdir(OUTPUT_FOLDER)
     posts = []
@@ -68,8 +81,8 @@ def get_posts_in_order() -> list[tuple[str, str, str]]:
         if not filename.endswith(".html") or filename == "index.html":
             continue
 
-        name_only = filename[:-len(".html")]
-        after_split = name_only.split('::')
+        name_only = filename[: -len(".html")]
+        after_split = name_only.split("::")
         if len(after_split) != 2:
             continue
         date, name = after_split
@@ -91,10 +104,10 @@ def convert_markdown() -> None:
 
         input_file = INPUT_FOLDER + filename
 
-        filename_without_dotmd = filename[:-len(".md")]
+        filename_without_dotmd = filename[: -len(".md")]
         output_file = OUTPUT_FOLDER + filename_without_dotmd + ".html"
 
-        markdown.markdownFromFile(input=input_file , output=output_file)
+        markdown.markdownFromFile(input=input_file, output=output_file)
 
 
 if __name__ == "__main__":
