@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """main"""
 
 import argparse
@@ -107,7 +109,28 @@ def convert_markdown() -> None:
         filename_without_dotmd = filename[: -len(".md")]
         output_file = OUTPUT_FOLDER + filename_without_dotmd + ".html"
 
-        markdown.markdownFromFile(input=input_file, output=output_file)
+        input_file_contents = get_content_with_synced_info(input_file, filename_without_dotmd)
+        input_file_contents = "".join(input_file_contents)
+
+        output_file_contents = markdown.markdown(input_file_contents)
+
+        with open(output_file, "w") as f:
+            f.write(output_file_contents)
+
+
+# synced info is title and date
+def get_content_with_synced_info(path: str, filename: str) -> list[str]:
+    with open(path, "r") as f:
+        lines = f.readlines()
+
+    # TODO add try except to handle unexpected file formats
+    date, title = filename.split('::')
+
+    to_sync = ["# "+ title, "Date: " + date, ""]
+    to_sync = [s + "\n" for s in to_sync]
+
+    return to_sync + lines
+    
 
 
 if __name__ == "__main__":
