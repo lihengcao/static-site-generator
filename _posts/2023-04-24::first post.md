@@ -1,5 +1,3 @@
-# Hi
-
 Just seeing how Jekyll works (:
 
 # First Experience
