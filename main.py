@@ -16,47 +16,47 @@ except ImportError:
     )
     sys.exit(1)
 
-INPUT_FOLDER = "_posts/"
-OUTPUT_FOLDER = "docs/"
-
 VERBOSE = False
 
 
 def main():
     """entrypoint"""
-    parse_args()
-    convert_markdown()
-    build_homepage()
+    input_folder, output_folder = parse_args()
+    convert_markdown(input_folder, output_folder)
+    build_homepage(input_folder, output_folder)
     print("Done!")
 
 
-def parse_args() -> None:
+def parse_args() -> tuple[str, str]:
     parser = argparse.ArgumentParser(prog="static site generator")
     parser.add_argument("-i", "--input-folder")
     parser.add_argument("-o", "--output-folder")
 
     args = parser.parse_args()
 
+    input_folder = "_posts/"
+    output_folder = "docs/"
+
     # This is horrible practice. I will change this... eventually...
     if args.input_folder is not None:
-        global INPUT_FOLDER
-        INPUT_FOLDER = args.input_folder
+        input_folder = args.input_folder
     if args.output_folder is not None:
-        global OUTPUT_FOLDER
-        OUTPUT_FOLDER = args.output_folder
+        output_folder = args.output_folder
 
     if VERBOSE:
-        print(f"{INPUT_FOLDER=} {OUTPUT_FOLDER=}")
+        print(f"{input_folder=} {output_folder=}")
+
+    return input_folder, output_folder
 
 
-def build_homepage() -> None:
+def build_homepage(input_folder: str, output_folder: str) -> None:
     index_file = [
         "# Liheng's Blog\n",  # Some md linter tells me that there should be an *additional* new line afterwards
         "Made with my own simple static site generator ([repo](https://github.com/lihengcao/static-site-generator/))",
         "\n## Posts\n",  # same here. an additional newline before and after
     ]
 
-    posts = get_posts_in_order()
+    posts = get_posts_in_order(input_folder, output_folder)
 
     for date, name, filename in posts:
         index_file.extend(
@@ -68,16 +68,16 @@ def build_homepage() -> None:
     index_file = "\n".join(index_file) + "\n"
 
     if VERBOSE:
-        with open(INPUT_FOLDER + "index.md", "w", encoding="utf-8") as f:
+        with open(input_folder + "index.md", "w", encoding="utf-8") as f:
             f.writelines(index_file)
 
     index_file = markdown.markdown(index_file)
-    with open(OUTPUT_FOLDER + "index.html", "w", encoding="utf-8") as f:
+    with open(output_folder + "index.html", "w", encoding="utf-8") as f:
         f.writelines(index_file)
 
 
-def get_posts_in_order() -> list[tuple[str, str, str]]:
-    files_in_output_directory = os.listdir(OUTPUT_FOLDER)
+def get_posts_in_order(input_folder: str, output_folder: str) -> list[tuple[str, str, str]]:
+    files_in_output_directory = os.listdir(output_folder)
     posts = []
 
     for filename in files_in_output_directory:
@@ -96,8 +96,8 @@ def get_posts_in_order() -> list[tuple[str, str, str]]:
     return posts
 
 
-def convert_markdown() -> None:
-    files_in_input_directory = os.listdir(INPUT_FOLDER)
+def convert_markdown(input_folder: str, output_folder: str) -> None:
+    files_in_input_directory = os.listdir(input_folder)
     if VERBOSE:
         print(f"{files_in_input_directory=}")
 
@@ -105,10 +105,10 @@ def convert_markdown() -> None:
         if not filename.endswith(".md") or filename == "index.md":
             continue
 
-        input_file = INPUT_FOLDER + filename
+        input_file = input_folder + filename
 
         filename_without_dotmd = filename[: -len(".md")]
-        output_file = OUTPUT_FOLDER + filename_without_dotmd + ".html"
+        output_file = output_folder + filename_without_dotmd + ".html"
 
         input_file_contents = get_content_with_synced_info(input_file, filename_without_dotmd)
         if input_file_contents is None:
