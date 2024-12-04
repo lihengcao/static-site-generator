@@ -5,6 +5,7 @@
 import argparse
 import os
 import sys
+from typing import Optional
 
 try:
     import markdown
@@ -110,6 +111,8 @@ def convert_markdown() -> None:
         output_file = OUTPUT_FOLDER + filename_without_dotmd + ".html"
 
         input_file_contents = get_content_with_synced_info(input_file, filename_without_dotmd)
+        if input_file_contents is None:
+            continue
         input_file_contents = "".join(input_file_contents)
 
         output_file_contents = markdown.markdown(input_file_contents)
@@ -119,12 +122,16 @@ def convert_markdown() -> None:
 
 
 # synced info is title and date
-def get_content_with_synced_info(path: str, filename: str) -> list[str]:
+def get_content_with_synced_info(path: str, filename: str) -> Optional[list[str]]:
     with open(path, "r") as f:
         lines = f.readlines()
 
-    # TODO add try except to handle unexpected file formats
-    date, title = filename.split('::')
+    split_res = filename.split('::')
+
+    if len(split_res) != 2:
+        return None
+
+    date, title = split_res
 
     to_sync = ["# "+ title, "Date: " + date, ""]
     to_sync = [s + "\n" for s in to_sync]
