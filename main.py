@@ -34,7 +34,7 @@ def parse_args() -> tuple[str, str]:
 
     args = parser.parse_args()
 
-    input_folder = "_posts/"
+    input_folder = "posts_go_here/"
     output_folder = "docs/"
 
     # This is horrible practice. I will change this... eventually...
