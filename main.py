@@ -59,11 +59,7 @@ def build_homepage(input_folder: str, output_folder: str) -> None:
     posts = get_posts_in_order(input_folder, output_folder)
 
     for date, name, filename in posts:
-        index_file.extend(
-            [
-                f"- [{date} {name}](./{filename})",
-            ]
-        )
+        index_file.append(f"- [{date} {name}](./{filename})")
 
     index_file = "\n".join(index_file) + "\n"
 
