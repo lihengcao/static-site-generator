@@ -54,12 +54,14 @@ def build_homepage(input_folder: str, output_folder: str) -> None:
         "# Liheng's Blog\n",  # Some md linter tells me that there should be an *additional* new line afterwards
         "Made with my own simple static site generator ([repo](https://github.com/lihengcao/static-site-generator/))",
         "\n## Posts\n",  # same here. an additional newline before and after
+        "| Date | Title |",  # set up table
+        "| :-: | :-: |",
     ]
 
     posts = get_posts_in_order(input_folder, output_folder)
 
     for date, name, filename in posts:
-        index_file.append(f"- [{date} {name}](./{filename})")
+        index_file.append(f"| {date} | [{name}](./{filename}) |")
 
     index_file = "\n".join(index_file) + "\n"
 
@@ -67,7 +69,7 @@ def build_homepage(input_folder: str, output_folder: str) -> None:
         with open(input_folder + "index.md", "w", encoding="utf-8") as f:
             f.writelines(index_file)
 
-    index_file = markdown.markdown(index_file)
+    index_file = markdown.markdown(index_file, extensions=['markdown.extensions.tables'])
     with open(output_folder + "index.html", "w", encoding="utf-8") as f:
         f.writelines(index_file)
 
